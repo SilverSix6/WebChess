@@ -1,0 +1,11 @@
+.piece {
+    width: 4em;
+    height: 4em;
+
+    position: absolute;
+}
+
+.piece img {
+    width: 100%;
+    height: 100%;
+}
