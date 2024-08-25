@@ -1,9 +1,10 @@
 import {Piece} from "./Piece.js";
 
 export class Board {
-    
+
     constructor() {
         this.pieces = []
+
         this.div = document.getElementById('board')
         this.board_width = this.div.clientWidth
         this.tile_width = this.board_width / 8
@@ -12,12 +13,16 @@ export class Board {
     }
 
     initializeBoard() {
-        this.piecePos = [];
+        this.piecePos = []
+        this.tiles = []
 
         for (let i = 0; i < 8; i++) {
-            this.piecePos[i] = [];
+            this.piecePos[i] = []
+            this.tiles[i] = []
+
             for (let j = 0; j < 8; j++) {
-                this.piecePos[i][j] = null; // Initialize each cell with null or any default value
+                this.piecePos[i][j] = null // Initialize each cell with null or any default value
+                this.tiles[i][j] = null
             }
         }
     }
@@ -31,17 +36,18 @@ export class Board {
 
             // Tiles
             for (let y = 0; y < 8; y++) {
-                let col = document.createElement('div')
-                col.classList.add('tile')
+                let tile = document.createElement('div')
+                tile.classList.add('tile')
 
                 // Alternate Colors
                 if (whiteColor)
-                    col.classList.add('white')
+                    tile.classList.add('white')
                 else
-                    col.classList.add('black')
+                    tile.classList.add('black')
 
                 whiteColor = 1 - whiteColor
-                row.append(col)
+                row.append(tile)
+                this.tiles[x][y] = tile;
             }
             whiteColor = 1 - whiteColor
             this.div.append(row);
@@ -61,13 +67,13 @@ export class Board {
         let frontLayout = [4, 4, 4, 4, 4, 4, 4, 4]
         let playerLayout = [5, 2, 3, 1, 0, 3, 2, 5]
         let opponentLayout = [5, 2, 3, 0, 1, 3, 2, 5]
+
         //
         //  Color IDs:
         //  white   - 0
         //  black   - 1
         //
         let color = 0;
-
 
         // Player Pieces
         this.addRow(color, playerLayout, 7)
@@ -87,7 +93,7 @@ export class Board {
         let piecesDiv = document.getElementById('pieces')
 
         for (let i = 0; i < 8; i++) {
-            let piece = new Piece(i, row, contextPath + '/ASSETS/Pieces/' + pieceColors[color] + fileNames[layout[i]])
+            let piece = new Piece(layout[i], color, this, i, row, contextPath + '/ASSETS/Pieces/' + pieceColors[color] + fileNames[layout[i]])
             this.pieces.push(piece)
             this.piecePos[row][i] = piece
             piecesDiv.append(piece.toDiv())
@@ -97,12 +103,25 @@ export class Board {
     }
 
     update() {
-        let board_top = this.div.offsetTop - this.board_width / 2
-        let board_left = this.div.offsetLeft - this.board_width / 2
-
         this.pieces.forEach(function (piece) {
-            piece.moveToBoard(board_top, board_left, this.tile_width)
+            piece.moveToBoard()
         }.bind(this))
+    }
+
+    boardTop() {
+        return this.div.offsetTop - this.board_width / 2
+    }
+
+    boardLeft() {
+        return this.div.offsetLeft - this.board_width / 2
+    }
+
+    highlightTile(x, y) {
+        this.tiles[y][x].classList.add('previousPosition')
+    }
+
+    unhighlightTile(x,y) {
+        this.tiles[y][x].classList.remove('previousPosition')
     }
 
 }
