@@ -15,6 +15,7 @@ export class Board {
     initializeBoard() {
         this.piecePos = []
         this.tiles = []
+        this.highLightedTiles = []
 
         for (let i = 0; i < 8; i++) {
             this.piecePos[i] = []
@@ -116,12 +117,30 @@ export class Board {
         return this.div.offsetLeft - this.board_width / 2
     }
 
-    highlightTile(x, y) {
-        this.tiles[y][x].classList.add('previousPosition')
+    highlightPrevious(x, y) {
+        if (x < 8 && x >= 0 && y < 8 && y >= 0) {
+            this.tiles[y][x].classList.add('previousPosition')
+            this.highLightedTiles.push([y,x])
+        }
+
     }
 
-    unhighlightTile(x,y) {
-        this.tiles[y][x].classList.remove('previousPosition')
+    highlightPossible(x,y) {
+        if (x < 8 && x >= 0 && y < 8 && y >= 0) {
+            this.tiles[y][x].classList.add('possiblePosition')
+            this.highLightedTiles.push([y,x])
+        }
+    }
+
+    clearHighlight() {
+        for (let i = 0; i < this.highLightedTiles.length; i++) {
+            let posX = this.highLightedTiles[i][1]
+            let posY = this.highLightedTiles[i][0]
+            this.tiles[posY][posX].classList.remove('possiblePosition')
+            this.tiles[posY][posX].classList.remove('previousPosition')
+        }
+        this.highLightedTiles = []
+
     }
 
 }

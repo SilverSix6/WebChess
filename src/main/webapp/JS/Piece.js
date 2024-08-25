@@ -166,7 +166,7 @@ export class Piece{
             this.div.classList.remove('selected')
             this.div.removeEventListener('mousemove', this.boundMouseMove)
 
-            this.board.unhighlightTile(this.posX, this.posY)
+            this.board.clearHighlight();
             this.snapToBoard();
         } else {
             this.moving = true
@@ -178,7 +178,12 @@ export class Piece{
             this.div.addEventListener('mousemove', this.boundMouseMove)
             this.div.addEventListener('mouseup', this.mouseUp.bind(this))
 
-            this.board.highlightTile(this.posX, this.posY)
+            let moveSet = this.getMoveSet()
+            for (let i = 0; i < moveSet.length; i++) {
+                this.board.highlightPossible(this.posX + moveSet[i][0] * this.direction, this.posY + moveSet[i][1] * this.direction)
+            }
+
+            this.board.highlightPrevious(this.posX, this.posY)
         }
     }
 
