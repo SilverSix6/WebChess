@@ -76,24 +76,24 @@ export class Board {
         let color = 0;
 
         // Player Pieces
-        this.addRow(color, playerLayout, 7)
-        this.addRow(color, frontLayout, 6)
+        this.addRow(color, playerLayout, 7, -1)
+        this.addRow(color, frontLayout, 6, -1)
 
         color = 1 - color
 
         // Opponent
-        this.addRow(color, frontLayout, 1)
-        this.addRow(color, opponentLayout, 0)
+        this.addRow(color, frontLayout, 1, 1)
+        this.addRow(color, opponentLayout, 0, 1)
     }
 
-    addRow(color, layout, row) {
+    addRow(color, layout, row, direction) {
         let fileNames = ['King.svg', 'Queen.svg', 'Knight.svg', 'Bishop.svg', 'Pawn.svg', 'Rook.svg']
         let pieceColors = ['White_', 'Black_']
 
         let piecesDiv = document.getElementById('pieces')
 
         for (let i = 0; i < 8; i++) {
-            let piece = new Piece(layout[i], color, this, i, row, contextPath + '/ASSETS/Pieces/' + pieceColors[color] + fileNames[layout[i]])
+            let piece = new Piece(layout[i], color, this, i, row, direction, contextPath + '/ASSETS/Pieces/' + pieceColors[color] + fileNames[layout[i]])
             this.pieces.push(piece)
             this.piecePos[row][i] = piece
             piecesDiv.append(piece.toDiv())
