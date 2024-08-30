@@ -18,30 +18,49 @@
 }
 
 .tile {
-    width: 4em;
-    height: 4em;
+    width: 12.5%;
+    height: 100%;
 
     display: inline-block;
 }
 
 .row {
-    width: 32em;
-    height: 4em;
+    width: 100%;
+    height: 12.5%;
 }
 
 .black {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgb(41, 41, 41);
 }
 
 .white {
-    background-color: white;
+    background-color: #a8a8a8;
 }
 
 .previousPosition {
     background-color: #ff6363;
 }
 
-.possiblePosition {
+.white.possiblePosition {
     background-color: #ffff84;
+}
+.black.possiblePosition {
+    background-color: #717138;
+}
+
+.piece {
+    width: 4em;
+    height: 4em;
+
+    position: absolute;
+}
+
+.piece img {
+    width: 100%;
+    height: 100%;
+}
+
+.selected {
+    z-index: 10;
 }
 
