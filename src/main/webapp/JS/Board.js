@@ -30,7 +30,7 @@ export class Board {
         return this.div.offsetLeft - this.board_width / 2
     }
 
-    highlightPrevious(x, y) {
+    highlightPrevious(x,y) {
         if (x < 8 && x >= 0 && y < 8 && y >= 0) {
             this.tiles[y][x].classList.add('previousPosition')
             this.highLightedTiles.push([y,x])

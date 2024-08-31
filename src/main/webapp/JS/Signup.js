@@ -17,7 +17,7 @@ export class Signup {
 
         this.signUpWindow.classList.remove('hidden')
 
-        this.confirmButton.addEventListener('click', this.signup)
+        this.confirmButton.addEventListener('click', this.signup.bind(this))
     }
 
     static signup() {

@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function () {
             entry.append(user)
             entry.append(score)
 
-
             leaderboard.append(entry)
 
         }

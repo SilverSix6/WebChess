@@ -3,6 +3,7 @@ package org.silversix6.webchess;
 import jakarta.websocket.Session;
 import org.silversix6.webchess.Database.Leaderboard;
 import org.silversix6.webchess.Database.Login;
+import org.silversix6.webchess.Database.UserDatabase;
 import org.silversix6.webchess.Game.Game;
 import org.silversix6.webchess.Game.GameManager;
 
@@ -19,6 +20,7 @@ public class MessageHandler {
             case MessageType.LEADERBOARD -> processLeaderboard(msg);
             case MessageType.NEW_GAME -> processNewGame(msg, session);
             case MessageType.JOIN_GAME -> processJoinGame(msg, session);
+            case MessageType.SIGNUP -> processSignUp(msg, session);
             default -> null;
         };
     }
@@ -59,5 +61,18 @@ public class MessageHandler {
         data.add(String.valueOf(1));                 // Game starting
 
         return msg.respond(data);
+    }
+
+    private static Message processSignUp(Message msg, Session session) {
+        String username = msg.messages.getFirst();
+        String password = msg.messages.get(1);
+
+        if (username.isEmpty() || password.isEmpty()) {
+            return msg.respond("FALSE");
+        } else {
+            UserDatabase.add(username, password);
+            return msg.respond("True");
+        }
+
     }
 }
