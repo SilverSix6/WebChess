@@ -1,0 +1,60 @@
+Client:
+    Choose game screen
+        - game id
+        - random queue
+
+    Waiting screen
+        - wait until paired with another user
+        - see game id
+
+    Chess board
+        Limit positions
+            - block own pieces
+            - block after 1 op piece
+
+        Check
+            - check if moving a piece puts enemies king in check
+            - check all pieces after moving king
+
+        Validate with server
+            - check move with server
+
+        Checkmate
+            - On checkmate message received from server
+                - Display who won
+                - option to cho
+
+        Moves
+            - validate on client
+                fail: return piece to original pos
+                pass:
+                    validate on server
+                        fail: return
+                        pass: move piece
+
+        Turns
+            - receive message of turn change
+            If player turn allow player to move
+            Else lock screen
+
+Server:
+
+    Match making
+        - two lists
+            - Random queue
+            - Code queue
+        - add games with two player to current games
+
+    Games
+        mark one player as white other black
+
+        Send turn signal to other player
+            - default should be to block
+
+        Repeat until Checkmate or Stalemate
+
+    Complete
+        remove the game from active games
+
+        X update database with new game result
+

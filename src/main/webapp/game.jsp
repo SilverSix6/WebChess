@@ -30,10 +30,6 @@
         <div id="pieces"></div>
     </div>
 
-    <div id="waiting">
-
-    </div>
-
     <div id="top-bar">
         <h1 id="logo">Web Chess</h1>
         <h1 id="user"></h1>
@@ -45,12 +41,12 @@
     </div>
 
     <div id="login-focus" class="focus">
-        <div id="login-menu" class="center">
-            <div id="login-menu-title">
+        <div class="menu center">
+            <div class="menu-title">
                 <h1>Login</h1>
             </div>
 
-            <div id="login-menu-options">
+            <div class="menu-options">
                 <div class="hidden required" id="username-required">required*</div>
                 <input type="text" placeholder="Username" id="username">
 
@@ -58,6 +54,52 @@
                 <input type="password" placeholder="Password" id="password">
 
                 <input type="button" value="Login" id="login-button">
+                <input type="button" value="Sign Up" id="signup-button">
+            </div>
+
+        </div>
+    </div>
+
+    <div id="signup" class="focus hidden">
+        <div class="menu center">
+            <div class="menu-title">
+                <h1>Sign Up</h1>
+            </div>
+
+            <div class="menu-options">
+                <input type="text" placeholder="Username" id="su-username">
+                <input type="password" placeholder="Password" id="su-password">
+                <input type="password" placeholder="Password Confirm" id="su-password-confirm">
+                <input type="button" value="Sign up" id="su-confirm">
+            </div>
+        </div>
+    </div>
+
+    <div id="matchmaking" class="focus hidden">
+        <div class="menu center">
+            <div class="menu-title">
+                <h1>Matchmaking</h1>
+            </div>
+
+            <div class="menu-options">
+                <input type="text" id="gameID" placeholder="Game ID" style="margin-bottom: 0">
+                <input type="button" value="Join Game" id="joinGame" style="margin-top: 0">
+
+                <input type="button" value="New Game" id="newGame">
+            </div>
+        </div>
+    </div>
+
+    <div id="waiting" class="focus hidden">
+        <div class="menu center">
+            <div class="menu-title">
+                <h1>In Queue</h1>
+            </div>
+
+            <div class="menu-options">
+                <input type="button" value="Game ID: {gameID}" style="pointer-events: none" id="waiting-game-id"> <!-- todo auto fill game id -->
+                <input type="button" value="Leave Queue" id="leaveQueue">
+
             </div>
 
         </div>

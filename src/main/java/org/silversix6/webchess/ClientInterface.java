@@ -6,6 +6,7 @@ import jakarta.websocket.server.ServerEndpoint;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 
@@ -35,6 +36,7 @@ public class ClientInterface {
 
     @OnError
     public void onError(Session session, Throwable t) {
-        System.out.println("Connection Error: " + t.getMessage());
+        System.out.println("Connection Error: " + t.getMessage() +"\n"+ Arrays.toString(t.getStackTrace()));
+
     }
 }

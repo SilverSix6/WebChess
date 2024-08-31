@@ -4,52 +4,39 @@ import org.silversix6.webchess.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class GameManager {
 
-    List<Game> games;
-    List<Game> matching;
+    static List<Game> games = new ArrayList<>();
+    static List<Game> matching = new ArrayList<>();
 
-    public GameManager() {
-        games = new ArrayList<>();
-        matching = new ArrayList<>();
-    }
-
-    private Game joinGame(User user) {
-
-        Game game;
-
+    public static Game joinGame(User user, int n) {
         if (matching.isEmpty()) {
-            // No games waiting on player
-            game = new Game(user);
-            matching.add(game);
-        } else {
-            // Use pre-existing game
-            game = matching.removeLast();
-            game.user2 = user;
-            games.add(game);
+            return newGame(user);
         }
 
+        // Find requested game
+        if (n != -1) {
+            for (Game game: matching) {
+                if (game.gameId == n) {
+                    matching.remove(game);
+                    return game;
+                }
+            }
+            return null;
+        }
+
+        Game game = matching.removeLast();
+        game.addUser(user);
         return game;
     }
 
-    public Game getGameInstance(int gameId) {
-        for (Game game : games) {
-            if (game.gameId == gameId)
-                return game;
-        }
+    public static Game newGame(User user) {
+        Game game = new Game(user);
 
-        return null;
+        games.add(game);
+        matching.add(new Game(user));
+
+        return game;
     }
-
-    public Game getGameInstance(User user) {
-        for (Game game : games) {
-            if (Objects.equals(game.user1, user) || Objects.equals(game.user2, user))
-                return game;
-        }
-
-        return joinGame(user);
-    }
-
 }

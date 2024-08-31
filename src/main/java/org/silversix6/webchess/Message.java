@@ -3,6 +3,7 @@ package org.silversix6.webchess;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Message {
@@ -15,6 +16,14 @@ public class Message {
         this.messageId = messageId;
         this.messages = messages;
         this.messageType = messageType;
+    }
+
+    public Message respond(List<String> data) {
+        return new Message(messageId, data, messageType);
+    }
+
+    public Message respond(String data) {
+        return new Message(messageId, Collections.singletonList(data), messageType);
     }
 
     public int getMessageId() {

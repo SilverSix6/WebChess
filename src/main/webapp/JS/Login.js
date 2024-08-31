@@ -1,4 +1,6 @@
 import {Websocket} from "./Websocket.js";
+import {Matchmaking} from "./Matchmaking.js";
+import {Signup} from "./Signup.js";
 
 document.addEventListener('DOMContentLoaded', initializeLogin)
 
@@ -10,6 +12,7 @@ let loginButton
 let loginFocus
 let loginMenu
 let userDisplay
+let signUpButton
 
 function initializeLogin () {
     loginButton = document.getElementById('login-button')
@@ -20,6 +23,8 @@ function initializeLogin () {
     loginFocus = document.getElementById('login-focus')
     loginMenu = document.getElementById('login-menu')
     userDisplay = document.getElementById('user')
+    signUpButton = document.getElementById('signup-button')
+
 
     loginButton.addEventListener('click', login)
 
@@ -31,6 +36,10 @@ function initializeLogin () {
         passwordRequired.classList.add('hidden')
     })
 
+    signUpButton.addEventListener('click', function () {
+        loginFocus.classList.add('hidden')
+        Signup.start()
+    })
 }
 
 function login () {
@@ -56,7 +65,8 @@ function login () {
         if (message.messages[0] === "True") {
             loginFocus.classList.add('hidden')
             userDisplay.append(usernameInput.value);
-            // todo: handle successful login
+
+            Matchmaking.start()
         } else {
             // Invalid login
             usernameInput.value = ''
