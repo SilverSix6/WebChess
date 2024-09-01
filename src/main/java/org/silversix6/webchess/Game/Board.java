@@ -15,6 +15,13 @@ public class Board {
         pieceList = new ArrayList<Piece>();
     }
 
+    public void move(Move move) {
+        // Swap piece position
+        Piece piece = pieces[move.prevX][move.prevY];
+        pieces[move.newX][move.newY] = piece;
+        pieces[move.prevX][move.prevY] = null;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

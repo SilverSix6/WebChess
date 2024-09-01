@@ -5,9 +5,7 @@ import jakarta.websocket.*;
 import jakarta.websocket.server.ServerEndpoint;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 
 
 @ServerEndpoint(value = "/interface")
@@ -25,8 +23,9 @@ public class ClientInterface {
         Message request = gson.fromJson(txt, Message.class);
 
         Message response = MessageHandler.process(request, session);
+        assert response != null;
 
-        session.getBasicRemote().sendText(gson.toJson(response));
+        session.getBasicRemote().sendText(response.toJson());
     }
 
     @OnClose
@@ -36,7 +35,7 @@ public class ClientInterface {
 
     @OnError
     public void onError(Session session, Throwable t) {
-        System.out.println("Connection Error: " + t.getMessage() +"\n"+ Arrays.toString(t.getStackTrace()));
+        System.out.println("Connection Error: " + t.getMessage() + "\n" + Arrays.toString(t.getStackTrace()));
 
     }
 }

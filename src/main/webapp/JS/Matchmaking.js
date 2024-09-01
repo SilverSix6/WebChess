@@ -1,5 +1,6 @@
 import {Waiting} from "./Waiting.js";
 import {Websocket} from "./Websocket.js";
+import {MessageHandler} from "./MessageHandler.js";
 
 
 export class Matchmaking {
@@ -39,7 +40,7 @@ export class Matchmaking {
             messageType: 4,
         }
 
-        Websocket.send(data, function (response) {
+        MessageHandler.send(data, function (response) {
 
             Matchmaking.gameID = response.messages[0];
 
@@ -57,7 +58,7 @@ export class Matchmaking {
             messages: [Matchmaking.gameIDDisplay.value]
         }
 
-        Websocket.send(data, function (response) {
+        MessageHandler.send(data, function (response) {
 
             if (response.messages[0] === "NOTFOUND") {
                 console.log("Game Not Found")
@@ -79,7 +80,6 @@ export class Matchmaking {
         } else {
             Waiting.start(this.gameID)
         }
-
     }
 
 }

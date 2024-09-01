@@ -101,7 +101,6 @@
                 <input type="button" value="Leave Queue" id="leaveQueue">
 
             </div>
-
         </div>
     </div>
 </body>

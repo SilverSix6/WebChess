@@ -1,5 +1,6 @@
 import {Board} from "./Board.js";
 import {Piece} from "./Piece.js";
+import {User} from "./User.js";
 
 export class BoardFactory {
 
@@ -8,8 +9,6 @@ export class BoardFactory {
 
         this.initializeBoard()
         this.initializeTiles()
-
-        this.loadPieces()
     }
 
     initializeBoard() {
@@ -55,7 +54,7 @@ export class BoardFactory {
         }
     }
 
-    loadPieces() {
+    loadPieces(userId) {
         //
         //  Piece IDs:
         //  king    - 0
@@ -74,7 +73,9 @@ export class BoardFactory {
         //  white   - 0
         //  black   - 1
         //
-        let color = 1;
+        let color = User.userId === userId ? 0 : 1;
+        User.color = color
+        User.turn = color === 0;
 
         // Player Pieces
         this.addRow(color, playerLayout, 7, -1)

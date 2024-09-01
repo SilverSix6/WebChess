@@ -1,13 +1,19 @@
 import {BoardFactory} from './BoardFactory.js';
 
+let boardFactory;
+
 document.addEventListener('DOMContentLoaded', function() {
 
-    let board = new BoardFactory().board
+    boardFactory = new BoardFactory()
 
-    window.addEventListener('resize', board.update.bind(board))
+    window.addEventListener('resize', boardFactory.board.update.bind(boardFactory.board))
 
 })
 
+
+export function getBoardFactory() {
+    return boardFactory
+}
 
 
 

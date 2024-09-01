@@ -1,7 +1,13 @@
+import {User} from "./User.js";
+import {MessageHandler} from "./MessageHandler.js";
+
 export class Piece{
     type;
     color;
     moved;
+
+    prevX;
+    prevY;
 
     posX;
     posY;
@@ -42,8 +48,8 @@ export class Piece{
         imageElement.src = this.image
         this.div.classList.add('piece')
         this.div.append(imageElement)
-
-        this.div.addEventListener('mousedown', this.mouseDown.bind(this))
+        if (this.color === User.color)
+            this.div.addEventListener('mousedown', this.mouseDown.bind(this))
     }
 
     toDiv() {
@@ -71,8 +77,11 @@ export class Piece{
             this.moved = true;
             this.board.piecePos[this.posY][this.posX] = null;
             this.board.piecePos[newPosY][newPosX] = this;
+            this.prevX = this.posX;
+            this.prevY = this.posY;
             this.posY = newPosY;
             this.posX = newPosX;
+
         } else {
             // position off game board
         }
@@ -81,14 +90,25 @@ export class Piece{
     }
 
     mouseDown(e) {
+        if (!User.turn)
+            return
+
         if (this.moving) {
             this.moving = false
+            User.turn = false
 
             this.div.classList.remove('selected')
             this.div.removeEventListener('mousemove', this.boundMouseMove)
 
             this.board.clearHighlight();
             this.snapToBoard();
+
+            let data = {
+                messageType: "2",
+                messages: [this.prevX, this.prevY, this.posX, this.posY]
+            }
+
+            MessageHandler.send(data)
         } else {
             this.moving = true
 
@@ -109,6 +129,7 @@ export class Piece{
     }
 
     mouseMove(e) {
+
         let deltaX = this.startX - e.clientX
         let deltaY = this.startY - e.clientY
 

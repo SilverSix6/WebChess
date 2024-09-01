@@ -1,6 +1,8 @@
 import {Websocket} from "./Websocket.js";
 import {Matchmaking} from "./Matchmaking.js";
 import {Signup} from "./Signup.js";
+import {MessageHandler} from "./MessageHandler.js";
+import {User} from "./User.js";
 
 document.addEventListener('DOMContentLoaded', initializeLogin)
 
@@ -54,18 +56,17 @@ function login () {
         return
     }
 
-    Websocket.connect()
-
     let data = {
         messages: [usernameInput.value, passwordInput.value],
         messageType: 0
     }
 
-    Websocket.send(data, function (message) {
+    MessageHandler.send(data, function (message) {
         if (message.messages[0] === "True") {
             loginFocus.classList.add('hidden')
             userDisplay.append(usernameInput.value);
-
+            User.username = usernameInput.value
+            User.userId = message.messages[1]
             Matchmaking.start()
         } else {
             // Invalid login

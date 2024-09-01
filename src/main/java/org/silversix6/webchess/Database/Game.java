@@ -1,10 +1,7 @@
 package org.silversix6.webchess.Database;
 
-import org.silversix6.webchess.User;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Game {

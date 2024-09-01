@@ -1,7 +1,5 @@
 package org.silversix6.webchess.Database;
 
-import org.silversix6.webchess.Message;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

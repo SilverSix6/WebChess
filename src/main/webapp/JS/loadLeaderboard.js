@@ -1,15 +1,14 @@
 import {Websocket} from "./Websocket.js";
+import {MessageHandler} from "./MessageHandler.js";
 
 document.addEventListener('DOMContentLoaded', function () {
     let leaderboard = document.getElementById('leader-board')
-
-    Websocket.connect()
 
     let data = {
         messageType: 1
     }
 
-    Websocket.send(data, function (message) {
+    MessageHandler.send(data, function (message) {
         let entries = message.messages
         for (let i = 0; i < entries.length; i+=2) {
             let entry = document.createElement('div');

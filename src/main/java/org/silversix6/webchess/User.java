@@ -1,5 +1,7 @@
 package org.silversix6.webchess;
 
+import jakarta.websocket.Session;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -10,10 +12,38 @@ public class User {
 
     String username;
     int userId;
+    public Session session;
 
-    public User(String username, int userId) {
+    public User(String username, int userId, Session session) {
         this.username = username;
         this.userId = userId;
+        this.session = session;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void message(Message message) {
+        this.session.getAsyncRemote().sendText(message.toJson());
+    }
+
+    public static User getUser(Session session) {
+        User user = users.get(session.getId());
+        assert user != null;
+        return users.get(session.getId());
     }
 
     @Override

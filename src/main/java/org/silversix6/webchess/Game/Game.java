@@ -1,5 +1,7 @@
 package org.silversix6.webchess.Game;
 
+import jakarta.validation.constraints.NotNull;
+import org.silversix6.webchess.Message;
 import org.silversix6.webchess.User;
 
 public class Game {
@@ -8,6 +10,7 @@ public class Game {
 
     User user1;
     User user2;
+    GameState state;
     Board board;
 
     public Game(User user1, User user2) {
@@ -20,11 +23,13 @@ public class Game {
     public Game(User user) {
         board = new Board();
         this.user1 = user;
+        state = GameState.GAME_WAITING;
         gameId = gameCount++;
     }
 
-    public void addUser(User user) {
-        user1 = user;
+    public void addUser(@NotNull User user) {
+        user2 = user;
+        state = GameState.GAME_STARTING;
     }
 
     public int getGameId() {
@@ -49,5 +54,17 @@ public class Game {
 
     public void setUser2(User user2) {
         this.user2 = user2;
+    }
+
+    public void broadcast(Message message) {
+        System.out.printf("Game (%d) Broadcast message: %s\n", gameId, message.toJson());
+        assert user1 != null;
+        assert user2 != null;
+        user1.message(message);
+        user2.message(message);
+    }
+
+    public void changeTurn() {
+        this.state = this.state == GameState.TURN_1 ? GameState.TURN_2 : GameState.TURN_1;
     }
 }
