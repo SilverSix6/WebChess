@@ -3,6 +3,7 @@ package org.silversix6.webchess;
 import com.google.gson.Gson;
 import jakarta.websocket.*;
 import jakarta.websocket.server.ServerEndpoint;
+import org.silversix6.webchess.Game.GameManager;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 public class ClientInterface {
 
     static final Gson gson = new Gson();
+    private final Object lock = new Object();
 
     @OnOpen
     public void onOpen(Session session) {
@@ -19,18 +21,21 @@ public class ClientInterface {
     }
 
     @OnMessage
-    public void onMessage(String txt, Session session) throws IOException {
+    public synchronized void onMessage(String txt, Session session) throws IOException {
         Message request = gson.fromJson(txt, Message.class);
 
         Message response = MessageHandler.process(request, session);
         assert response != null;
 
         session.getBasicRemote().sendText(response.toJson());
+
     }
 
     @OnClose
     public void onClose(CloseReason reason, Session session) {
         System.out.println("Connection Closed. Reason: " + reason.getReasonPhrase());
+        GameManager.removeGame(User.getUser(session));
+        User.removeUser(session);
     }
 
     @OnError

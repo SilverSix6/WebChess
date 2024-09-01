@@ -11,7 +11,7 @@ export class MessageHandler {
     static handle(event) {
         let message = JSON.parse(event.data)
 
-        MessageHandler.logReceive(message)
+        //MessageHandler.logReceive(message)
 
         switch (message.messageType) {
             case "2":
@@ -19,6 +19,9 @@ export class MessageHandler {
                 return
             case "6":
                 MessageHandler.handleGameStart(message)
+                return
+            case "8":
+                MessageHandler.handleTurn(message)
                 return;
             default:
                 MessageHandler.handleDefault(message)
@@ -27,38 +30,39 @@ export class MessageHandler {
     }
 
     static handleMove(message) {
-        console.log('Message type move: ')
-        console.log(message)
+        console.log('MOVE: ', message)
+
+        let data = message.messages
+        if (data.length === 4)
+            getBoardFactory().board.movePiece(data[0],data[1],data[2],data[3])
     }
 
     static handleGameStart(message) {
-        console.log('Game start: ')
-        console.log(message)
+        console.log('GAME START: ', message)
+        console.log('Starting User: ', message.messages[0], ' Current User: ', User.userId)
 
         Waiting.hide()
 
-        console.log(message.messages[0])
-        console.log(User.userId)
         getBoardFactory().loadPieces(message.messages[0])
 
     }
 
+    static handleTurn(message) {
+        console.log('TURN: ', message)
+    }
+
     static handleDefault(message) {
+        console.log('DEFAULT: ', message)
         let listener = this.eventListeners.get(message.messageId)
         listener(message)
 
         this.eventListeners.delete(message.messageId)
     }
 
-    static logSend(messageData) {
-        console.log('Message Sent: ')
-        console.log(messageData)
+    static logSend(data) {
+        console.log('Sent: ', data)
     }
 
-    static logReceive(messageData) {
-        console.log('Message Received: ')
-        console.log(messageData)
-    }
 
     static send(data, listener) {
         Websocket.connect()

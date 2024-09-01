@@ -67,4 +67,26 @@ public class Game {
     public void changeTurn() {
         this.state = this.state == GameState.TURN_1 ? GameState.TURN_2 : GameState.TURN_1;
     }
+
+    @Override
+    public String toString() {
+        String output = "Game ID: " + gameId + "\n" +
+                "Game Count: " + gameCount + "\n";
+        if (user1 != null)
+            output += "User1: " + user1 + "\n";
+        else
+            output += "User1: null\n";
+
+        if (user2 != null)
+            output += "User2: " + user2 + "\n";
+        else
+            output += "User2: null\n";
+
+        if (board != null)
+            output += "Board: " + board + "\n";
+        else
+            output += "Board: null\n";
+
+        return output;
+    }
 }

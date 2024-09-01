@@ -6,9 +6,6 @@ export class Piece{
     color;
     moved;
 
-    prevX;
-    prevY;
-
     posX;
     posY;
 
@@ -75,18 +72,12 @@ export class Piece{
         let newPosX = ((this.div.offsetLeft  - this.board.boardLeft() + this.board.tile_width / 2) / this.board.tile_width ) | 0
         if (newPosY >= 0 && newPosY < 8 && newPosX >= 0 && newPosX < 8 && this.board.pieceMoveManager.validMove(this, newPosX, newPosY)) {
             this.moved = true;
-            this.board.piecePos[this.posY][this.posX] = null;
-            this.board.piecePos[newPosY][newPosX] = this;
-            this.prevX = this.posX;
-            this.prevY = this.posY;
-            this.posY = newPosY;
-            this.posX = newPosX;
+            this.newX = newPosX;
+            this.newY = newPosY;
 
         } else {
             // position off game board
         }
-
-        this.moveToBoard()
     }
 
     mouseDown(e) {
@@ -105,7 +96,7 @@ export class Piece{
 
             let data = {
                 messageType: "2",
-                messages: [this.prevX, this.prevY, this.posX, this.posY]
+                messages: [this.posX, this.posY, this.newX, this.newY]
             }
 
             MessageHandler.send(data)
@@ -143,4 +134,5 @@ export class Piece{
     mouseUp(e) {
         this.div.removeEventListener('mousemove', this.mouseMove.bind(this))
     }
+
 }

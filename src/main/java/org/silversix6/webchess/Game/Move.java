@@ -24,7 +24,7 @@ public class Move {
     }
 
     public boolean valid(Game game, User user) {
-        return false; // todo
+        return true; // todo
     }
 
     public void addToList(List<String> list) {

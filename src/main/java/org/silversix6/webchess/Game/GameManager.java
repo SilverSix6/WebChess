@@ -5,10 +5,7 @@ import org.silversix6.webchess.Message;
 import org.silversix6.webchess.MessageType;
 import org.silversix6.webchess.User;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class GameManager {
 
@@ -95,17 +92,15 @@ public class GameManager {
         assert game != null;
 
         //  If current player turn
-        System.out.println("Player 1: " + (game.user1.getUserId() == user.getUserId() && game.state == GameState.TURN_1));
-        System.out.println("Player 2: " + (game.user2.getUserId() == user.getUserId() && game.state == GameState.TURN_2));
+        System.out.println(game);
 
         if (game.user1 == user && game.state == GameState.TURN_1 || game.user2 == user && game.state == GameState.TURN_2 ) {
 
             // validate move
-            /*
+
             if (!move.valid(game, user)) {
                 return false;
             }
-             */
 
             // send move to both players
             game.broadcast(new Message(move));
@@ -125,11 +120,13 @@ public class GameManager {
         return false;
     }
 
-
+    public static void removeGame(User user) {
+        games.removeIf(game -> Objects.equals(game.user1, user) || Objects.equals(game.user2, user));
+    }
 
     private static Game findGame(User user) {
         for (Game game: games) {
-            if (game.user1.equals(user) || game.user2.equals(user)) {
+            if (Objects.equals(game.user1, user) || Objects.equals(game.user2, user)) {
                 return game;
             }
         }

@@ -12,7 +12,7 @@ public class User {
 
     String username;
     int userId;
-    public Session session;
+    public final Session session;
 
     public User(String username, int userId, Session session) {
         this.username = username;
@@ -37,7 +37,9 @@ public class User {
     }
 
     public void message(Message message) {
-        this.session.getAsyncRemote().sendText(message.toJson());
+        synchronized (session) {
+            this.session.getAsyncRemote().sendText(message.toJson());
+        }
     }
 
     public static User getUser(Session session) {
@@ -46,16 +48,25 @@ public class User {
         return users.get(session.getId());
     }
 
+    public static void removeUser(Session session) {
+        users.remove(session.getId());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId && Objects.equals(username, user.username);
+        return userId == user.userId;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(username, userId);
+    }
+
+    @Override
+    public String toString() {
+        return "Username: " + username + "\nUser ID:" + userId;
     }
 }
