@@ -32,7 +32,7 @@ export class Board {
         console.log(prevX, prevY, newX, newY)
 
         let piece = this.piecePos[prevY][prevX];
-        console.log(piece, this.piecePos)
+        //console.log(piece, this.piecePos)
         this.piecePos[newY][newX] = piece
         piece.posX = newX
         piece.posY = newY

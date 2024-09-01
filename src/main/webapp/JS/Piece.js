@@ -94,12 +94,25 @@ export class Piece{
             this.board.clearHighlight();
             this.snapToBoard();
 
-            let data = {
-                messageType: "2",
-                messages: [this.posX, this.posY, this.newX, this.newY]
+            if ((this.newX !== undefined && this.newY !== undefined) && (this.posX !== this.newX || this.posY !== this.newY) ) {
+
+                let move
+                if (User.color === 0)
+                    move = [this.posX, this.posY, this.newX, this.newY]
+                else
+                    move = [7 - this.posX, 7 - this.posY, 7 - this.newX, 7 - this.newY]
+
+                let data = {
+                    messageType: "2",
+                    messages: move
+                }
+
+                MessageHandler.send(data)
+            } else {
+                User.turn = true
+                this.moveToBoard()
             }
 
-            MessageHandler.send(data)
         } else {
             this.moving = true
 

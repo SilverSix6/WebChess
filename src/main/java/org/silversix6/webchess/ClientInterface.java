@@ -7,6 +7,7 @@ import org.silversix6.webchess.Game.GameManager;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 
 @ServerEndpoint(value = "/interface")
@@ -21,14 +22,16 @@ public class ClientInterface {
     }
 
     @OnMessage
-    public synchronized void onMessage(String txt, Session session) throws IOException {
-        Message request = gson.fromJson(txt, Message.class);
+    public void onMessage(String txt, Session session) throws IOException, InterruptedException {
+        synchronized (session) {
+            Message request = gson.fromJson(txt, Message.class);
 
-        Message response = MessageHandler.process(request, session);
-        assert response != null;
+            Message response = MessageHandler.process(request, session);
+            assert response != null;
 
-        session.getBasicRemote().sendText(response.toJson());
-
+            TimeUnit.MILLISECONDS.sleep(100);
+            session.getBasicRemote().sendText(response.toJson());
+        }
     }
 
     @OnClose

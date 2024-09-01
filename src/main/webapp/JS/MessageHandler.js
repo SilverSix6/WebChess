@@ -49,6 +49,8 @@ export class MessageHandler {
 
     static handleTurn(message) {
         console.log('TURN: ', message)
+        
+        User.turn = message.messages[0] === User.userId;
     }
 
     static handleDefault(message) {
